@@ -1,5 +1,5 @@
 {
-  "name": "tailor-shop-demo",
+  "name": "simple-tailor-shop-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,15 +11,25 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "html-to-image": "^1.11.13",
+    "jsbarcode": "^3.12.3",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tailwindcss": "^4.3.3"
+    "recharts": "^3.10.1",
+    "jspdf": "^4.2.1",
+    "tailwindcss": "^4.3.3",
+    "vazirmatn": "^33.0.3"
   },
   "devDependencies": {
+    "@types/jsbarcode": "^3.11.4",
+    "@types/node": "^22.14.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
+    "typescript": "~5.8.2",
     "vite": "^8.3.0"
   }
 }

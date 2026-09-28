@@ -1,1 +1,157 @@
+@import "vazirmatn/Vazirmatn-Variable-font-face.css";
 @import "tailwindcss";
+
+@layer base {
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: #0f172a;
+    color: #1e293b;
+    font-family: 'Plus Jakarta Sans', 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  [dir="rtl"] {
+    font-family: 'Vazirmatn', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    min-width: 0;
+  }
+
+  button,
+  a,
+  select {
+    touch-action: manipulation;
+  }
+}
+
+@media (max-width: 639px) {
+  body { -webkit-text-size-adjust: 100%; }
+  input, select, textarea { font-size: 16px !important; }
+  .receipt-modal-shell, #retail-receipt-modal {
+    align-items: flex-start !important;
+    padding: 0.5rem !important;
+  }
+  #receipt-modal-container, .retail-receipt-container {
+    max-height: calc(100dvh - 1rem) !important;
+    border-radius: 0.875rem !important;
+  }
+  .receipt-actions, .receipt-modal-footer { padding: 0.75rem !important; }
+  .print-main-wrapper { min-width: max-content; transform-origin: top center; }
+}
+
+/* Custom Bento Grid theme utilities */
+.bg-bento-canvas {
+  background-color: #0f172a;
+}
+
+.bg-bento-dark {
+  background-color: #1A1A1A;
+}
+
+.text-bento-gold {
+  color: #14b8a6;
+}
+
+.bg-bento-gold {
+  background-color: #0f766e;
+}
+
+.border-bento-gold {
+  border-color: #14b8a6;
+}
+
+.border-bento-subtle {
+  border-color: #E5E5E5;
+}
+
+/* Calm slate + teal palette.  These compatibility rules keep the established
+   component markup readable while replacing the former gold-heavy accent. */
+[class~="bg-[#D4AF37]"] { background-color: #0f766e !important; }
+[class~="text-[#D4AF37]"] { color: #14b8a6 !important; }
+[class~="border-[#D4AF37]"] { border-color: #14b8a6 !important; }
+[class~="ring-[#D4AF37]"] { --tw-ring-color: #14b8a6 !important; }
+[class~="hover:bg-[#C29E2E]"]:hover,
+[class~="hover:bg-[#B39025]"]:hover { background-color: #115e59 !important; }
+[class~="focus:border-[#D4AF37]"]:focus { border-color: #14b8a6 !important; }
+[class~="focus:ring-[#D4AF37]"]:focus { --tw-ring-color: #14b8a6 !important; }
+
+@media print {
+  html, body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+  .no-print, nav, header, aside, .receipt-actions, .receipt-modal-footer, button:not(.print-allow) {
+    display: none !important;
+  }
+  .receipt-modal-shell, #retail-receipt-modal, .print-modal-container {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+  #receipt-modal-container, .retail-receipt-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+  #authentic-receipt-slip, #printable-retail-slip {
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+  [data-print-format="a4"] #authentic-receipt-slip {
+    width: 186mm !important;
+    max-width: 186mm !important;
+  }
+  [data-print-format="a5"] #authentic-receipt-slip {
+    width: 138mm !important;
+    max-width: 138mm !important;
+  }
+  [data-print-format="thermal58"] #authentic-receipt-slip,
+  .thermal58-slip {
+    width: 54mm !important;
+    max-width: 54mm !important;
+  }
+  [data-print-format="thermal80"] #authentic-receipt-slip,
+  .thermal80-slip {
+    width: 76mm !important;
+    max-width: 76mm !important;
+  }
+  .overflow-y-auto {
+    overflow: visible !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  @page {
+    margin: 3mm;
+    size: auto;
+  }
+}

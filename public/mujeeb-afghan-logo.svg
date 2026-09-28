@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 768" role="img" aria-labelledby="title desc">
+  <title id="title">Mujeeb Afghan Fashion</title>
+  <desc id="desc">Gold crowned eagle emblem for Mujeeb Afghan Fashion</desc>
+  <rect width="768" height="768" fill="#050505"/>
+  <g fill="none" stroke="#c9952e" stroke-width="7">
+    <circle cx="384" cy="333" r="177"/>
+    <circle cx="384" cy="333" r="190" stroke-width="3"/>
+    <path d="M218 464c-73 48-98-31-35-36-66-38-58-96 5-80-38-58-8-99 42-66-4-68 47-91 65-30"/>
+    <path d="M550 464c73 48 98-31 35-36 66-38 58-96-5-80 38-58 8-99-42-66 4-68-47-91-65-30"/>
+    <path d="M281 165 384 37l103 128M285 114h198M313 85h142"/>
+  </g>
+  <g fill="#e0a832" stroke="#7c5315" stroke-width="4">
+    <path d="M384 102c-23 30-39 54-39 82 16-11 29-16 39-16s23 5 39 16c0-28-16-52-39-82Z"/>
+    <path d="M384 181c-68 8-119 57-119 130 0 92 61 154 119 191 58-37 119-99 119-191 0-73-51-122-119-130Zm-16 45c-40 11-70 43-74 85 25-22 48-32 74-34-20 19-30 43-30 72 16-20 31-31 48-39l-2-84c-5 0-10 0-16 0Zm32 0 2 84c17 8 32 19 48 39 0-29-10-53-30-72 26 2 49 12 74 34-4-42-34-74-74-85-6 0-11 0-16 0Z"/>
+    <path d="M368 266c-44 3-78 24-97 58 35-12 63-11 94 1l-43 27c18 1 39-3 62-14l43 14c-23-24-41-48-59-86Z" fill="#090909"/>
+    <path d="M384 333c-34 31-60 75-68 130 29-27 51-42 68-49 17 7 39 22 68 49-8-55-34-99-68-130Z" fill="#090909"/>
+  </g>
+  <g fill="#e0a832" font-family="Georgia,serif" text-anchor="middle">
+    <text x="384" y="584" font-size="83" font-weight="700" letter-spacing="8">MUJEEB</text>
+    <text x="384" y="632" font-size="25" letter-spacing="8">AFGHAN FASHION</text>
+  </g>
+  <path d="M108 650h190M470 650h190" stroke="#e0a832" stroke-width="4"/>
+</svg>
