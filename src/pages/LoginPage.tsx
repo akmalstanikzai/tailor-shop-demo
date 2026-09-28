@@ -17,6 +17,9 @@ import {
   ArrowLeft
 } from 'lucide-react';
 
+const DEMO_EMAIL = 'admin@tailorshop.com';
+const DEMO_PASSWORD = 'admin123';
+
 interface LoginViewProps {
   language: Language;
   shopSettings: ShopSettings;
@@ -33,9 +36,8 @@ export const LoginView: React.FC<LoginViewProps> = ({
   const t = translations[language];
   const isRtl = language === 'fa' || language === 'ps';
 
-  // Strictly empty state with no pre-filled credentials
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(DEMO_EMAIL);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +48,9 @@ export const LoginView: React.FC<LoginViewProps> = ({
     setIsLoading(true);
 
     try {
+      if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+        throw new Error('Invalid demo credentials');
+      }
       const { data, error: loginError } = await supabase.auth.signInWithPassword({
         email: email.trim().toLowerCase(),
         password,
@@ -238,6 +243,11 @@ export const LoginView: React.FC<LoginViewProps> = ({
 
           {/* Credentials Info Footnote */}
           <div className="mt-6 pt-5 border-t border-stone-800 text-center">
+            <div className="mb-4 rounded-xl border border-[#D4AF37]/25 bg-[#D4AF37]/10 p-3 text-left">
+              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37]">Demo credentials</p>
+              <p className="font-mono text-xs text-stone-200">Email: {DEMO_EMAIL}</p>
+              <p className="mt-1 font-mono text-xs text-stone-200">Password: {DEMO_PASSWORD}</p>
+            </div>
             <div className="inline-flex items-center gap-1.5 text-[11px] text-stone-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>{language === 'fa' ? 'دسترسی امن مدیر خیاطی' : language === 'ps' ? 'د خیاطۍ مدیر خوندي لاسرسی' : 'Secure Tailor Shop Management'}</span>

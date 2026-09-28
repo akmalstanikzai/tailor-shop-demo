@@ -288,6 +288,9 @@ function createLocalFallbackClient() {
       },
       async signInWithPassword({ email, password: _password }: { email: string; password?: string }) {
         const cleanEmail = (email || 'admin@mujeeb.af').trim().toLowerCase();
+        if (cleanEmail !== 'admin@tailorshop.com' || _password !== 'admin123') {
+          return { data: { user: null, session: null }, error: new Error('Invalid demo credentials') };
+        }
         const user = { email: cleanEmail, name: cleanEmail.split('@')[0] || 'Admin' };
         setStoredUser(user);
         const session = { access_token: 'local_session', user: { id: 'local_admin', email: cleanEmail, user_metadata: { name: user.name } } };
