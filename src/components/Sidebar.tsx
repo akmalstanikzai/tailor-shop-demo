@@ -234,6 +234,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </button>
 
+          <div className="hidden" aria-hidden="true">
           {/* Retail workspace */}
           <div className="my-2.5 border-t border-stone-200 pt-2.5">
             <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
@@ -286,6 +287,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </span>
             )}
           </button>
+
+          </div>
 
           {/* Financials & Accounts workspace */}
           <div className="my-2.5 border-t border-stone-200 pt-2.5">

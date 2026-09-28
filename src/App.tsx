@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Order, 
   Customer, 
@@ -8,7 +8,6 @@ import {
   Language,
   Fabric,
   Product,
-  ProductCategory,
   ProductSale,
   Expense
 } from './types';
@@ -19,38 +18,17 @@ import { Dashboard } from './pages/DashboardPage';
 import { OrderForm } from './components/OrderForm';
 import { CustomersView } from './pages/CustomersPage';
 import { FabricsView } from './pages/FabricsPage';
-import { ProductsView } from './pages/ProductsPage';
-import { SalesHistoryView } from './pages/SalesHistoryPage';
 import { ExpensesView } from './pages/ExpensesPage';
 import { DesignSettingsView } from './pages/SettingsPage';
 import { ReceiptSlipModal } from './components/ReceiptSlipModal';
 import { LoginView } from './pages/LoginPage';
-import { PublicTrackingView } from './pages/PublicTrackingPage';
 import { ReportsView } from './pages/ReportsPage';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { getErrorMessage } from './lib/errors';
 import { migrateLegacyLocalData } from './services/legacyMigration';
 
-const getCurrentRoute = () => window.location.hash.replace(/^#/, '') || window.location.pathname;
-
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(getCurrentRoute);
-
-  useEffect(() => {
-    const handleRouteChange = () => setCurrentPath(getCurrentRoute());
-    window.addEventListener('hashchange', handleRouteChange);
-    window.addEventListener('popstate', handleRouteChange);
-    return () => {
-      window.removeEventListener('hashchange', handleRouteChange);
-      window.removeEventListener('popstate', handleRouteChange);
-    };
-  }, []);
-
-  if (currentPath === '/login') {
-    return <ShopApp />;
-  }
-
-  return <PublicTrackingView />;
+  return <ShopApp />;
 }
 
 function ShopApp() {
@@ -86,9 +64,6 @@ function ShopApp() {
   const [customers, setCustomers] = useState<Customer[]>(() => storageService.getCustomers());
   const [fabrics, setFabrics] = useState<Fabric[]>(() => storageService.getFabrics());
   const [products, setProducts] = useState<Product[]>(() => storageService.getProducts());
-  const [productCategories, setProductCategories] = useState<ProductCategory[]>(() => 
-    storageService.getProductCategories()
-  );
   const [productSales, setProductSales] = useState<ProductSale[]>(() => 
     storageService.getProductSales()
   );
@@ -118,7 +93,6 @@ function ShopApp() {
   const [prefilledFabric, setPrefilledFabric] = useState<Fabric | null>(null);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
   const [activeReceiptOrder, setActiveReceiptOrder] = useState<Order | null>(null);
-  const [pendingSaleProduct, setPendingSaleProduct] = useState<Product | null>(null);
 
   // Sync RTL and Document Language
   useEffect(() => {
@@ -193,7 +167,6 @@ function ShopApp() {
     setCustomers(storageService.getCustomers());
     setFabrics(storageService.getFabrics());
     setProducts(storageService.getProducts());
-    setProductCategories(storageService.getProductCategories());
     setProductSales(storageService.getProductSales());
     setExpenses(storageService.getExpenses());
     setMeasurementFields(storageService.getMeasurementFields());
@@ -201,78 +174,10 @@ function ShopApp() {
     setShopSettings(storageService.getShopSettings());
   };
 
-  // Product Inventory Handlers
-  const handleAddProduct = async (prodData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const saved = await storageService.saveProductAsync(prodData);
-    reloadData();
-    return saved;
-  };
-
-  const handleUpdateProduct = async (prod: Product) => {
-    await storageService.saveProductAsync(prod);
-    reloadData();
-  };
-
-  const handleDeleteProduct = async (productId: string) => {
-    await storageService.deleteProduct(productId);
-    reloadData();
-  };
-
-  const handleRecordProductSale = async (saleData: Omit<ProductSale, 'id' | 'createdAt'>) => {
-    let saleToSave = saleData;
-    if (saleData.customerName && saleData.customerPhone) {
-      const existingCustomer = customers.find(customer =>
-        (saleData.customerId && customer.id === saleData.customerId) ||
-        customer.phone === saleData.customerPhone
-      );
-      const customer: Customer = {
-        ...(existingCustomer || {}),
-        id: existingCustomer?.id || saleData.customerId || `cust_product_${Date.now()}`,
-        name: saleData.customerName,
-        phone: saleData.customerPhone,
-        whatsapp: existingCustomer?.whatsapp || saleData.customerPhone,
-        address: existingCustomer?.address || '',
-        notes: existingCustomer?.notes || 'Retail product customer',
-        standardMeasurements: existingCustomer?.standardMeasurements || {},
-        preferredGarmentType: existingCustomer?.preferredGarmentType,
-        createdAt: existingCustomer?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        totalOrdersCount: existingCustomer?.totalOrdersCount || 0,
-        totalSpent: existingCustomer?.totalSpent || 0,
-        totalBalance: existingCustomer?.totalBalance || 0,
-      };
-      await storageService.saveCustomerAsync(customer);
-      saleToSave = { ...saleData, customerId: customer.id };
-    }
-
-    const saved = await storageService.saveProductSaleAsync(saleToSave);
-    setPendingSaleProduct(null);
-    reloadData();
-    return saved;
-  };
-
-  const handleMakeProductSale = (product: Product) => {
-    setPendingSaleProduct(product);
-    setCurrentTab('sales_history');
-  };
-
-  const handleAddProductCategory = async (catName: string) => {
-    const saved = await storageService.saveProductCategory(catName);
-    reloadData();
-    return saved;
-  };
-
   // Switch Language
   const handleLanguageChange = (lang: Language) => {
     setLanguage(lang);
   };
-
-  // Computed currency symbol for current language
-  const currencySymbol = useMemo(() => {
-    if (language === 'ps') return shopSettings?.currencyPs || 'افغانۍ';
-    if (language === 'fa') return shopSettings?.currencyFa || 'افغانی';
-    return shopSettings?.currencySymbol || shopSettings?.currencyEn || 'AFN';
-  }, [language, shopSettings]);
 
   // Login handler
   const handleLoginSuccess = (user: { email: string; name: string }) => {
@@ -475,36 +380,6 @@ function ShopApp() {
               language={language}
               onFabricUpdated={reloadData}
               onSelectFabricForOrder={handleNewOrderForFabric}
-            />
-          )}
-
-          {currentTab === 'products' && (
-            <ProductsView
-              products={products}
-              categories={productCategories}
-              sales={productSales}
-              currencySymbol={currencySymbol}
-              language={language}
-              onAddProduct={handleAddProduct}
-              onUpdateProduct={handleUpdateProduct}
-              onDeleteProduct={handleDeleteProduct}
-              onMakeSale={handleMakeProductSale}
-              onAddCategory={handleAddProductCategory}
-            />
-          )}
-
-          {currentTab === 'sales_history' && (
-            <SalesHistoryView
-              sales={productSales}
-              products={products}
-              categories={productCategories}
-              customers={customers}
-              shopSettings={shopSettings}
-              currencySymbol={currencySymbol}
-              language={language}
-              onRecordSale={handleRecordProductSale}
-              onNavigateToProducts={() => setCurrentTab('products')}
-              initialProduct={pendingSaleProduct}
             />
           )}
 
