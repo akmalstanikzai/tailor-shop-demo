@@ -181,7 +181,7 @@ export const PublicTrackingView: React.FC = () => {
 
         <footer className="py-6 text-center text-xs text-stone-500">{language === 'ps' ? shopSettings.addressPs : language === 'fa' ? shopSettings.addressFa : shopSettings.addressEn}<br />{shopSettings.phone1} · {shopSettings.phone2}<br /><a href="https://rayan-tech-solution.tech" target="_blank" rel="noreferrer" className="underline">{copy.developed}</a></footer>
       </main>
-      <a href="/login" className="fixed bottom-4 left-4 z-10 rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-bold text-stone-700 shadow-lg shadow-stone-900/10 transition hover:border-[#173b3b] hover:bg-[#173b3b] hover:text-white">{copy.staff}</a>
+      <a href="/#/login" className="fixed bottom-4 left-4 z-10 rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-bold text-stone-700 shadow-lg shadow-stone-900/10 transition hover:border-[#173b3b] hover:bg-[#173b3b] hover:text-white">{copy.staff}</a>
     </div>
   );
 };

@@ -31,29 +31,18 @@ import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { getErrorMessage } from './lib/errors';
 import { migrateLegacyLocalData } from './services/legacyMigration';
 
+const getCurrentRoute = () => window.location.hash.replace(/^#/, '') || window.location.pathname;
+
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(getCurrentRoute);
 
   useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
-    };
-    const handleClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest('a');
-      if (target) {
-        const href = target.getAttribute('href');
-        if (href && (href === '/' || href === '/login' || href === '/track' || href === '/customer-tracking' || href === '/customer-search')) {
-          e.preventDefault();
-          window.history.pushState({}, '', href);
-          setCurrentPath(href);
-        }
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    document.addEventListener('click', handleClick);
+    const handleRouteChange = () => setCurrentPath(getCurrentRoute());
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
     return () => {
-      window.removeEventListener('popstate', handlePopState);
-      document.removeEventListener('click', handleClick);
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
     };
   }, []);
 
